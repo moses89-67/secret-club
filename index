@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Club® - Not Everyone Gets In</title>
+  <meta name="description" content="Limited drops. Premium streetwear. Members only vibes.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">SECRET CLUB®</div>
+      <div class="tagline">Streetwear from Chile</div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="exclusive-badge">✨ Exclusive Access</div>
+      <h1>Not Everyone Gets In</h1>
+      <p>Limited drops. Premium streetwear. Members only vibes.</p>
+      <div class="suits">♠️♦️♣️</div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" id="follower-count">0</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="waitlist-count">0</div>
+        <div class="stat-label">In the Club</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Exclusivity</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Waitlist Section -->
+    <div class="waitlist-section">
+      <h2>Join the Club</h2>
+      <p>Get early access to drops and exclusive previews.</p>
+      <div class="success-message" id="success-message">
+        ✓ You're in. Watch your inbox for first drops.
+      </div>
+      <form id="waitlist-form">
+        <div class="form-group">
+          <input 
+            type="email" 
+            placeholder="your@email.com" 
+            required
+            id="email-input"
+          >
+          <button type="submit">Join</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Drops Section -->
+    <div class="drops-section">
+      <h2>Upcoming Drops</h2>
+      <div class="drops-grid">
+        <div class="drop-card">Drop 1<br>Coming Soon</div>
+        <div class="drop-card">Drop 2<br>TBA</div>
+        <div class="drop-card">Drop 3<br>Members Only</div>
+        <div class="drop-card">Drop 4<br>Limited</div>
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="socials">
+      <a href="https://instagram.com/secretclub.cl" class="social-link" target="_blank" title="Instagram" rel="noopener">📷</a>
+      <a href="https://twitter.com" class="social-link" target="_blank" title="Twitter" rel="noopener">𝕏</a>
+      <a href="https://discord.com" class="social-link" target="_blank" title="Discord" rel="noopener">💬</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2024 Secret Club®. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
