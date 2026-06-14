@@ -1,0 +1,186 @@
+// DOM Elements
+const form = document.getElementById('waitlist-form');
+const emailInput = document.getElementById('email-input');
+const successMessage = document.getElementById('success-message');
+const waitlistCount = document.getElementById('waitlist-count');
+const followerCount = document.getElementById('follower-count');
+
+/**
+ * Load and display waitlist count from localStorage
+ */
+function loadWaitlistCount() {
+  const count = localStorage.getItem('secretClubWaitlist') || '0';
+  const num = parseInt(count);
+  waitlistCount.textContent = num.toLocaleString();
+}
+
+/**
+ * Update follower count (simulated)
+ * In production, this would fetch from Instagram API
+ */
+function updateFollowerCount() {
+  // Simulated follower count between 600-1000
+  const simulated = Math.floor(Math.random() * 400) + 600;
+  followerCount.textContent = simulated.toLocaleString();
+}
+
+/**
+ * Validate email format
+ */
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+/**
+ * Handle form submission
+ */
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = emailInput.value.trim();
+
+  // Validate email
+  if (!isValidEmail(email)) {
+    alert('Please enter a valid email address');
+    return;
+  }
+
+  try {
+    // In production, send to backend/database
+    // await fetch('/api/waitlist', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ email })
+    // });
+
+    // Local storage for demo
+    let count = parseInt(localStorage.getItem('secretClubWaitlist') || '0');
+    const emails = JSON.parse(localStorage.getItem('secretClubEmails') || '[]');
+
+    if (!emails.includes(email)) {
+      count++;
+      emails.push(email);
+      localStorage.setItem('secretClubWaitlist', count);
+      localStorage.setItem('secretClubEmails', JSON.stringify(emails));
+
+      // Update UI
+      loadWaitlistCount();
+      successMessage.style.display = 'block';
+      form.style.display = 'none';
+
+      // Log for debugging
+      console.log(`✓ ${email} added to waitlist. Total: ${count}`);
+
+      // Reset after 2 seconds
+      setTimeout(() => {
+        emailInput.value = '';
+      }, 500);
+    } else {
+      alert('This email is already on the waitlist!');
+    }
+  } catch (error) {
+    console.error('Error adding to waitlist:', error);
+    alert('Something went wrong. Please try again.');
+  }
+});
+
+/**
+ * Check if user already joined
+ */
+function checkIfJoined() {
+  const count = parseInt(localStorage.getItem('secretClubWaitlist') || '0');
+  if (count > 0) {
+    const emails = JSON.parse(localStorage.getItem('secretClubEmails') || '[]');
+    if (emails.length > 0) {
+      successMessage.style.display = 'block';
+      form.style.display = 'none';
+    }
+  }
+}
+
+/**
+ * Add click handlers to drop cards
+ */
+function initializeDropCards() {
+  const dropCards = document.querySelectorAll('.drop-card');
+  dropCards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      if (form.style.display !== 'none') {
+        form.scrollIntoView({ behavior: 'smooth' });
+        emailInput.focus();
+      } else {
+        alert('You\'re already in the club! Check your email for drop previews.');
+      }
+    });
+  });
+}
+
+/**
+ * Add scroll animations
+ */
+function initializeScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.stat-card, .drop-card').forEach((el) => {
+    observer.observe(el);
+  });
+}
+
+/**
+ * Initialize tracking for analytics
+ */
+function initializeTracking() {
+  // Track page view
+  console.log('Secret Club landing page loaded');
+
+  // Track engagement
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('social-link')) {
+      const platform = e.target.title;
+      console.log(`User clicked ${platform} link`);
+    }
+  });
+}
+
+/**
+ * Initialize all functionality
+ */
+function initialize() {
+  loadWaitlistCount();
+  updateFollowerCount();
+  checkIfJoined();
+  initializeDropCards();
+  initializeScrollAnimations();
+  initializeTracking();
+
+  console.log('🎯 Secret Club MVP initialized');
+}
+
+// Run on page load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initialize);
+} else {
+  initialize();
+}
+
+// Export for testing (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    isValidEmail,
+    loadWaitlistCount,
+    updateFollowerCount
+  };
+}
